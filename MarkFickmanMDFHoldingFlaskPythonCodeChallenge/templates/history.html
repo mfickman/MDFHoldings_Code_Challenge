@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>M Fickman MFD</title>
+<h1>MFD Holding Mark Fickman Code Challenge</h1>
+{%endblock %}
+
+{% block body %}
+<h6>MDFF Holding Code Challenge.
+    History page showing all entries
+</h6>
+<div class="content_XY">
+    <h3><a href="/">Return to Main</a></h3>
+    <h4>ALL CALLS</h4>
+    <table border="1" class="table table-bordered table-hover table-striped table-responsive">
+        <tr>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">ID</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">WHO IS CALLING</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">WHERE ARE THEY CALLING TO</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">DATE AND TIME CALL WAS INITIATED</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">IS CALL CURRENTLY ACTIVE</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">TODO HOW LONG HAS CALL BEEN ACTIVE TODO</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">DID THE CALL HANG UP</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">WHEN DID THE CALL HANG UP</th>
+        </tr>
+        {% for call in full_log %}
+            <tr>
+                <td class="text-center" syle="padding: 10px;">{{call.id}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.ani_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.callto_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_created}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.is_active}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.time_active}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.deleted}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_deleted}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+</div>
+
+{%endblock %}

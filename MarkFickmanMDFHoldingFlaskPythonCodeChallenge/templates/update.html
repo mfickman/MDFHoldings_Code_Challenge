@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>M Fickman MFD</title>
+<h1>MFD Holding Mark Fickman Code Challenge</h1>
+{%endblock %}
+
+{% block body %}
+<h6>MDFF Holding Code Challenge.
+    Create flask crud app to display mock call log data.
+
+    Log data will contain two valid phone numbers (ani and callto).
+    Numbers must be valid phone numbers.
+
+    Without access to valid phone number database to cross check, utilize two logic rules.
+    Numbers must begin with 1 and must be 11 integers long.
+
+    Write data to external sqlite database, including the time the call was logged.
+
+    Add field for action to take, either answer or hangup.
+    Answer will activate the call, which places the call on system. Utilize boolean logic to and new On_System field in model to determine if call is on system.
+    Hangup will perform Delete method, and will remove call from system.  Utilize boolean logic to keep call in call log, but do not display as active call.
+
+    Utilize datetime module to log the time a call log was created, subtract from now, iterate through pandas dataframe, calculate difference, and display time since call was logged
+
+    Add download buttons to show all data currently in sqlite database file.
+</h6>
+<div class="content">
+    <h2>Update Master</h2>
+
+
+    <form action="/update/{{task.id}}" method="POST">
+        <input type="text" name="content" id="content" value="{{task.content}}">
+        <input type="submit" value="Update Task">
+    </form>
+</div>
+
+{%endblock %}
