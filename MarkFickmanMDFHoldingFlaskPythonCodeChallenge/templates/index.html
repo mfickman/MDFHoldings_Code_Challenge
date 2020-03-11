@@ -1,45 +1,46 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>M Fickman MFD</title>
-<h1>MFD Holding Mark Fickman Code Challenge</h1>
+<title>App M Fickman MDF</title>
+
+
+<script delay src="{{ url_for('static', filename='js/timer.js') }}"> </script>
 {%endblock %}
 
 {% block body %}
-<h6>MDFF Holding Code Challenge.
-    Create flask crud app to display mock call log data.
 
-    Log data will contain two valid phone numbers (ani and callto).
-    Numbers must be valid phone numbers.
-
-    Without access to valid phone number database to cross check, utilize two logic rules.
-    Numbers must begin with 1 and must be 11 integers long.
-
-    Write data to external sqlite database, including the time the call was logged.
-
-    Add field for action to take, either answer or hangup.
-    Answer will perform mock PUT method, and will activate or place the call on system. Utilize boolean logic to determine if call is on system.
-    Hangup will perform mock DELETE method, and will remove call from system.  Utilize boolean logic to keep call in call log, but do not display as active call.
-
-    Utilize datetime module to log the time a call log was created.
-
-    Add link to show full all content in database as history page.
-</h6>
-<div class="content_XX">
+<div class="container">
+    <h3>MDF Holding Mark Fickman Code Challenge</h3>
+    <h6>Telephone Switchboard</h6>
+</div>
+<div class="container">
+<p class="content_XX">
      <br>
-    <div id="time-elapsed"></div>
+    {# <div id="time-elapsed"></div> #}
     <br>
     <form action="/" method="POST">
-        <label for="ani_number">ani number</label><br>
-        <input type="text" name="ani_number" id="ani_number"><br><br>
-        <label for="callto_number">callto number</label><br>
-        <input type="text" name="callto_number" id="callto_number"><br><br>
-        <input type="submit" value="Create New Log">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" class="form-control" id="ani_number" placeholder="Enter ani number" name="ani_number">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="callto_number" placeholder="Enter call to number" name="callto_number">
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Create New Call">
 
+        {% if flash_bool %}
+         <div class="alert alert-danger alert-dismissible">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <strong>Danger!</strong> {{flash_message}}
+         </div>
+        {% endif %}
     </form>
+    <br>
 
-    <h2>ALL PENDING CALLS</h2>
-    <table border="1" class="table table-bordered table-hover table-striped table-responsive">
+    <h2><p class="text-primary">ALL PENDING CALLS</p></h2>
+    <table class="table table-hover table-bordered">
         <tr>
             <th class="text-center" style="padding: 10px; background: whitesmoke">ID</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHO IS CALLING</th>
@@ -54,22 +55,22 @@
                 <td class="text-center" syle="padding: 10px;">{{pending_call.callto_number}}</td>
                 <td class="text-center" syle="padding: 10px;">{{pending_call.date_created}}</td>
                 <td class="text-center" syle="padding: 10px;">
-                    <a href="/answer/{{pending_call.id}}">Answer</a>
-                    <br><br>
-                    <a href="/hangup/{{pending_call.id}}">Hang Up</a>
+                    <a href="/answer/{{pending_call.id}}"><p class="text-success">Answer</p></a>
+
+                    <a href="/hangup/{{pending_call.id}}"><p class="text-danger">Hang Up</p></a>
                 </td>
             </tr>
         {% endfor %}
     </table>
     <br>
 
-    <h2>ALL ACTIVE CALLS</h2>
-    <table border="1">
+    <h2><p class="text-success">ALL ACTIVE CALLS</p></h2>
+    <table class="table table-hover table-bordered">
         <tr>
             <th class="text-center" style="padding: 10px; background: whitesmoke">ID</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHO IS CALLING</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHERE ARE THEY CALLING TO</th>
-            <th class="text-center" style="padding: 10px; background: whitesmoke">TO DO !! Time Active !! TO DO</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">TME ACTIVE</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">ACTIONS</th>
         </tr>
 
@@ -78,18 +79,25 @@
                 <td>{{active_call.id}}</td>
                 <td>{{active_call.ani_number}}</td>
                 <td>{{active_call.callto_number}}</td>
-                <td><div id="time-elapsed"></div></td>
+                <td><div id="time-elapsed{{loop.index}}"><script>startTimer({id: "time-elapsed{{loop.index}}", startTime: "{{active_call.time_active}}" })</script></div></td>
                 <td>
-                    <a href="/hangup/{{active_call.id}}">Hang Up</a>
+                    <a href="/hangup/{{active_call.id}}"><p class="text-danger">Hang Up</p></a>
                 </td>
             </tr>
         {% endfor %}
 
     </table>
     <br>
-    <br>
-    <a href="/history_page/">History Page Showing All Calls</a>
+
+    <a href="/history_page/" class="btn btn-info" role="button">History Page Showing All Calls</a>
+    <br><br><br><br>
 
 </div>
-
+</div>
 {%endblock %}
+
+{% block script_block %}
+
+{# <script delay src="{{ url_for('static', filename='js/timer.js') }}"><script> #}
+
+{% endblock %}

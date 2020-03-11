@@ -1,0 +1,17 @@
+
+
+{%- macro top_page_flash() -%}
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+  <div class="medium_width center-block centertext margintoplg">
+      <div id="flash-messages" class="row">
+          {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} flash" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+              {{ msg }}
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+  {% endif %}
+{% endwith %}
+{%- endmacro -%}

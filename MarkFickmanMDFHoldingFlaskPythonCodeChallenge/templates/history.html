@@ -1,42 +1,68 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>M Fickman MFD</title>
-<h1>MFD Holding Mark Fickman Code Challenge</h1>
+<title>Full Log Mark Fickman MDF</title>
+
 {%endblock %}
 
 {% block body %}
-<h6>MDFF Holding Code Challenge.
-    History page showing all entries
-</h6>
+<div class="container">
+    <h3>MDF Holding Code Challenge</h3>
+    <h6>History page showing all entries</h6>
 <div class="content_XY">
     <h3><a href="/">Return to Main</a></h3>
     <h4>ALL CALLS</h4>
-    <table border="1" class="table table-bordered table-hover table-striped table-responsive">
+    <table border="1" class="table table-bordered table-hover table-responsive">
         <tr>
             <th class="text-center" style="padding: 10px; background: whitesmoke">ID</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHO IS CALLING</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHERE ARE THEY CALLING TO</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">DATE AND TIME CALL WAS INITIATED</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">IS CALL CURRENTLY ACTIVE</th>
-            <th class="text-center" style="padding: 10px; background: whitesmoke">TODO HOW LONG HAS CALL BEEN ACTIVE TODO</th>
+            <th class="text-center" style="padding: 10px; background: whitesmoke">DATE AND TIME CALL WAS PLACED ON SYSTEM</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">DID THE CALL HANG UP</th>
             <th class="text-center" style="padding: 10px; background: whitesmoke">WHEN DID THE CALL HANG UP</th>
         </tr>
         {% for call in full_log %}
-            <tr>
+        {% if call.is_active == 1 %}
+        <tr class="table-success">
                 <td class="text-center" syle="padding: 10px;">{{call.id}}</td>
                 <td class="text-center" syle="padding: 10px;">{{call.ani_number}}</td>
                 <td class="text-center" syle="padding: 10px;">{{call.callto_number}}</td>
                 <td class="text-center" syle="padding: 10px;">{{call.date_created}}</td>
-                <td class="text-center" syle="padding: 10px;">{{call.is_active}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.is_active == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
                 <td class="text-center" syle="padding: 10px;">{{call.time_active}}</td>
-                <td class="text-center" syle="padding: 10px;">{{call.deleted}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.deleted == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
                 <td class="text-center" syle="padding: 10px;">{{call.date_deleted}}</td>
-            </tr>
+        </tr>
+        {% elif call.deleted == 1 %}
+        <tr class="table-danger">
+                <td class="text-center" syle="padding: 10px;">{{call.id}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.ani_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.callto_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_created}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.is_active == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.time_active}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.deleted == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_deleted}}</td>
+        </tr>
+        {% else %}
+        <tr class="table-info">
+                <td class="text-center" syle="padding: 10px;">{{call.id}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.ani_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.callto_number}}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_created}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.is_active == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.time_active}}</td>
+                <td class="text-center" syle="padding: 10px;">{% if call.deleted == 1 %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                <td class="text-center" syle="padding: 10px;">{{call.date_deleted}}</td>
+        </tr>
+        {% endif %}
+
         {% endfor %}
     </table>
     <br>
+</div>
 </div>
 
 {%endblock %}
