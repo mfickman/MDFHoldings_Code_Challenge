@@ -32,7 +32,7 @@ var startTimer = function(item) {
         var m = Math.floor(diff/(60));
         diff = diff-(m*60);
         var s = diff;
-        
+
         document.getElementById(item.id).innerHTML = d+" day(s), "+h+" hour(s), "+m+" minute(s), "+s+" second(s) active";
     }
 

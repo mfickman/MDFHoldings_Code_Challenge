@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, render_template, url_for, request, redirect, flash, Response
 from flask_sqlalchemy import SQLAlchemy
 import datetime
@@ -34,6 +35,12 @@ class CallLog(db.Model):
 
 
 ##### ROUTES #####
+## create error handeling
+@app.errorhandler(404)
+def page_not_found(error):
+    error_message = "404 Status Received, this page does not exist"
+    return render_template("error.html", error_message=error_message)
+
 ## create index/home method
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -77,7 +84,7 @@ def index():
                 db.session.commit()
                 return redirect('/')
             except Exception as e:
-                return redirect('/')
+                return redirect('page_not_found')
     else:
         #get all pending calls
         pending_log = CallLog.query.filter_by(is_active=0).filter_by(deleted=0).order_by(CallLog.id).all()
@@ -101,7 +108,7 @@ def hang_up(id):
         return redirect('/')
     except Exception as e:
         error_message = "Error in hangup Method" + "\n" + "Exception: " + str(e)
-        return error_message
+        return redirect('page_not_found')
 
 ## create route to answer phone, mock PUT method, update data, set is_active=1
 @app.route("/answer/<int:id>/", methods=['GET', 'POST'])
@@ -114,7 +121,7 @@ def answer(id):
         db.session.commit()
         return redirect('/')
     except Exception as e:
-        return redirect('/')
+        return redirect('page_not_found')
 
 ## create manual post method with 3 distinct fields, mimics index/home
 @app.route("/<int:ani>/<int:callto>/<string:action>/")
@@ -153,7 +160,7 @@ def index_manual_post(ani, callto, action):
             answer(pending_log_match[0].id)
             return redirect('/')
         except Exception as e:
-            return redirect('/')
+            return redirect('page_not_found')
     #action is hangup
     elif action_log.lower() == 'hangup':
         try:
@@ -161,10 +168,10 @@ def index_manual_post(ani, callto, action):
             hang_up(log_match[0].id)
             return redirect('/')
         except Exception as e:
-            return redirect('/')
+            return redirect('page_not_found')
     else:
         ## bad action
-        return redirect('/')
+        return redirect('page_not_found')
 
 ## create full log page with button to redirect to home page
 @app.route("/history_page/")
